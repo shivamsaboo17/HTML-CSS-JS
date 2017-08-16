@@ -1,0 +1,86 @@
+<html>
+    <head>
+        <title>Motion Trail Canvas</title>
+    </head>
+    <body>
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        
+    </body>
+    
+    <script>
+        var canvas;
+        var context;
+        canvas = document.getElementById('gameCanvas');
+        context = canvas.getContext('2d');
+        var xPos = 50;
+        var yPos = 250;
+        var position = [];
+        var motionTrailLength = 10;
+        window.onload = function(){
+            
+            
+            var framePerSecond = 60;
+            setInterval(drawEverything,1000/framePerSecond);
+            
+            canvas.addEventListener('mousemove',function(evt){
+               var mousepos = calculateMousePosition(evt);
+                xPos = mousepos.x;
+                yPos = mousepos.y;
+                
+                
+            });
+            
+        }
+        
+        
+        
+        function calculateMousePosition(evt){
+            var rect = canvas.getBoundingClientRect();
+            var root = document.documentElement;
+            var mouseX = evt.clientX - rect.left - root.scrollLeft;
+            var mouseY = evt.clientY - rect.top - root.scrollTop;
+            return{
+                x:mouseX,
+                y:mouseY
+            };
+        }
+        
+        
+        
+       function storeLastPosition(xPos, yPos) {
+  // push an item
+  position.push({
+    x: xPos,
+    y: yPos
+  });
+ 
+  //get rid of first item
+  if (position.length > motionTrailLength) {
+    position.shift();
+  }
+}
+        
+        
+        function drawEverything(){
+            
+            context.clearRect(0, 0, canvas.width, canvas.height);
+ 
+  for (var i = 0; i < position.length; i++) {
+      
+      var ratio = (i + 1) / position.length;
+    context.beginPath();
+    context.arc(position[i].x, position[i].y, 5*i, 0, 2 * Math.PI, true);
+    context.fillStyle = context.fillStyle = "rgba(204, 102, 153, " + ratio / 2 + ")";
+    context.fill();
+  }
+ 
+  context.beginPath();
+  context.arc(xPos, yPos, 50, 0, 2 * Math.PI, true);
+  context.fillStyle = "rgba(204, 102, 153, " + ratio / 2 + ")"
+  context.fill();
+ 
+  storeLastPosition(xPos, yPos);
+        }
+    
+    </script>
+</html>

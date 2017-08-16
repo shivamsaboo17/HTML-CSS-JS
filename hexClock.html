@@ -1,0 +1,50 @@
+<html>
+    
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    
+    <body>
+        <div id="hexclock">
+            <div id="time" style="color:white; font-family:Segoe UI Light;" ></div>
+            <div id="color"></div>
+        </div>
+        
+        <script>
+            window.onload = function(){
+                
+                displayClock();
+                setInterval(displayClock,1000);
+                
+            }
+            function displayClock(){
+                var clock = new Date();
+                var h = (clock.getHours()%12).toString();
+                var m = clock.getMinutes().toString();
+                var s = clock.getSeconds().toString();
+                
+                if(h.length<2){
+                    h = '0' + h;
+                }
+                if(m.length<2){
+                    m = '0' + m;
+                }
+                if(s.length<2){
+                    s = '0' + s;
+                }
+                
+                var time = h + ':' + m  + '.' + s;
+                var color = '#' + h+m+s;
+                
+                document.body.style.background = color;
+
+    
+                document.getElementById('time').innerHTML = time;
+
+    
+                document.getElementById('color').innerHTML = color;
+            }
+        </script>
+        
+    </body>
+</html>
